@@ -1,0 +1,32 @@
+/* Wrapper container */
+.code-wrapper {
+    position: relative; /* Make child elements position relative to container */
+    display: inline-block;
+    width: 100%;
+}
+
+/* Button styles */
+.copy {
+    position: absolute;
+    top: 10px; /* Adjust to appropriate vertical spacing */
+    right: 10px; /* Align to the right */
+    background: #007bff;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    z-index: 10; /* Ensure button displays above code block */
+    transition: background-color 0.3s;
+}
+
+.copy:hover {
+    background: #0056b3;
+}
+
+.copy.copyed {
+    background: #28a745;
+    color: #fff;
+}
+

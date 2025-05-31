@@ -1,0 +1,43 @@
+openapi: 3.0.0
+info:
+  title: AI Chat Module
+  description: Provides interfaces for chatting with AI
+  version: 1.0.0
+paths:
+  /plugins/ai/chat:
+    post:
+      tags:
+        - AI Chat
+      summary: Chat with AI
+      description: Submit a message and get AI's response
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: "Hello, AI"
+      responses:
+        "200":
+          description: AI response successful
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "Hello, how can I help you?"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 500
+                  message:
+                    type: string
+                    example: "Failed to process AI chat"

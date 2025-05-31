@@ -1,0 +1,48 @@
+openapi: 3.0.0
+info:
+  title: Tag Management Module
+  description: Provides tag-related operation interfaces
+  version: 1.0.0
+paths:
+  /tag/tagCountList:
+    get:
+      tags:
+        - Tag Management
+      summary: Get tag count list
+      description: Get the number of articles associated with each tag
+      responses:
+        "200":
+          description: Successfully returned tag count list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TagCountVo"
+        "500":
+          description: Failed to get tag count
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 500
+                  message:
+                    type: string
+                    example: Failed to get tag count
+components:
+  schemas:
+    TagCountVo:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "Technology"
+        count:
+          type: integer
+          example: 10

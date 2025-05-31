@@ -1,0 +1,22 @@
+/* Import other style files */
+@use 'markdown';
+
+/* Global styles */
+html,
+body,
+#app {
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+
+* {
+    font-family: 'Consolas', 'Microsoft YaHei', 'Hiragino Sans GB', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+}
+
+/* Variable definitions */
+$box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1); // element-ui light shadow
+
+:export {
+    boxShadow: $box-shadow;
+}

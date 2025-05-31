@@ -1,0 +1,387 @@
+openapi: 3.0.0
+info:
+  title: Article Management Module
+  version: 1.0.0
+
+paths:
+  /article/articleList:
+    get:
+      tags:
+        - Article Management
+      summary: Get article list
+      description: Get article list based on provided query conditions
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ArticleQueryDTO"
+      responses:
+        "200":
+          description: Returns article list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Article"
+
+  /article/{id}:
+    get:
+      tags:
+        - Article Management
+      summary: Get article details
+      description: Get detailed information of an article by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        "200":
+          description: Returns article details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Article"
+    delete:
+      tags:
+        - Article Management
+      summary: Delete article
+      description: Delete an article by ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        "200":
+          description: Delete successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+        "404":
+          description: Article not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Article not found"
+        "403":
+          description: Insufficient permissions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "No permission to delete"
+  /article/add:
+    post:
+      tags:
+        - Article Management
+      summary: Add new article
+      description: Add a new article with detailed information
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ArticleDTO"
+      responses:
+        "201":
+          description: Article created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Article"
+
+  /article/randomArticleList:
+    get:
+      tags:
+        - Article Management
+      summary: Get random article list
+      description: Get a list of random articles
+      responses:
+        "200":
+          description: Returns random article list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Article"
+
+  /article/search:
+    get:
+      tags:
+        - Article Management
+      summary: Search articles by keyword
+      description: Search articles by title
+      parameters:
+        - in: query
+          name: keyword
+          required: true
+          schema:
+            type: string
+            example: "OpenAPI"
+      responses:
+        "200":
+          description: Returns matching articles
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Article"
+
+  /article/edit:
+    put:
+      tags:
+        - Article Management
+      summary: Update article
+      description: Update existing article content with new information
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ArticleDTO"
+      responses:
+        "200":
+          description: Article updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Article"
+        "400":
+          description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 400
+                  message:
+                    type: string
+                    example: "Invalid request parameters"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 500
+                  message:
+                    type: string
+                    example: "Failed to update article"
+
+  /article/count:
+    get:
+      tags:
+        - Article Management
+      summary: Get article statistics
+      description: Get article statistics such as total count and published count
+      responses:
+        "200":
+          description: Returns statistics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalArticles:
+                    type: integer
+                    example: 100
+                  publishedArticles:
+                    type: integer
+                    example: 90
+
+  /article/updateViewCount/{id}:
+    put:
+      tags:
+        - Article Management
+      summary: Update article view count
+      description: Update view count for an article by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        "200":
+          description: Update successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+        "404":
+          description: Article not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Article not found"
+
+  /article/previousNextArticle/{id}:
+    get:
+      tags:
+        - Article Management
+      summary: Get previous and next articles
+      description: Get basic information of previous and next articles based on current article ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        "200":
+          description: Returns previous and next article information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  previous:
+                    $ref: "#/components/schemas/Article"
+                  next:
+                    $ref: "#/components/schemas/Article"
+
+
+components:
+  schemas:
+    Article:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: "OpenAPI Tutorial"
+        content:
+          type: string
+          example: "This is a detailed tutorial about how to use OpenAPI..."
+        summary:
+          type: string
+          example: "OpenAPI is a specification for describing RESTful APIs"
+        categoryId:
+          type: integer
+          example: 1
+        categoryName:
+          type: string
+          example: "Technology"
+        top:
+          type: string
+          enum: [0, 1]
+          example: "1"
+        status:
+          type: string
+          enum: [0, 1]
+          example: "0"
+        viewCount:
+          type: integer
+          example: 1000
+        createBy:
+          type: integer
+          example: 1
+        createTime:
+          type: string
+          format: date-time
+          example: "2025-02-01T12:00:00Z"
+        updateTime:
+          type: string
+          format: date-time
+          example: "2025-02-01T12:30:00Z"
+        delFlag:
+          type: integer
+          example: 0
+
+    ArticleDTO:
+      type: object
+      required:
+        - title
+        - content
+        - categoryId
+        - summary
+      properties:
+        title:
+          type: string
+          example: "OpenAPI Usage Tutorial"
+        content:
+          type: string
+          example: "This article details the steps and specifications for using OpenAPI."
+        summary:
+          type: string
+          example: "OpenAPI is a standard method for describing RESTful APIs."
+        categoryId:
+          type: integer
+          example: 1
+        status:
+          type: string
+          enum: [0, 1]
+          example: "1"
+
+    ArticleQueryDTO:
+      type: object
+      properties:
+        pageNum:
+          type: integer
+          example: 1
+        pageSize:
+          type: integer
+          example: 10
+        categoryId:
+          type: integer
+          example: 1
+        tagId:
+          type: integer
+          example: 2
+        date:
+          type: string
+          pattern: "^((19)|(2\\d))\\d{2}/((0?[1-9])|1[012])$"
+          example: "2025/02"
+      required:
+        - pageNum
+        - pageSize
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

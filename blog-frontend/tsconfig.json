@@ -1,0 +1,37 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ],
+  "compilerOptions": {
+    "target": "ESNext",                // Use modern JavaScript features
+    "module": "ESNext",                // Configure as ESNext module specification
+    "strict": true,                    // Enable strict mode
+    "esModuleInterop": true,           // Support mixing CommonJS and ES modules
+    "skipLibCheck": true,              // Skip library file checking to speed up compilation
+    "baseUrl": "./",                   // Base path, default project root directory
+    "paths": {
+      "@/*": ["src/*"]                 // Path alias, @ points to src folder
+    },
+    "typeRoots": [
+      "./node_modules/@types",         // Default type declarations
+      "./types"                        // Custom type declarations
+    ],
+    "types": ["element-plus/global"],  // Include Element Plus global declarations
+    "jsx": "preserve",                 // Support Vue JSX
+    "moduleResolution": "node",        // Node.js style module resolution
+    "useDefineForClassFields": true,   // Enable ES specification for class fields
+    "allowSyntheticDefaultImports": true, // Allow default imports
+  },
+  "include": [
+    "src/**/*.ts",                     // Include TypeScript files
+    "src/**/*.d.ts",                   // Include type declaration files
+    "src/**/*.tsx",                    // Include JSX files
+    "src/**/*.vue"                     // Include Vue files
+  ],
+  "exclude": [
+    "node_modules",                    // Exclude dependencies folder
+    "dist"                             // Exclude build output folder
+  ]
+}

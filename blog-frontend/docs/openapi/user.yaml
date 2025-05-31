@@ -1,0 +1,122 @@
+openapi: 3.0.0
+info:
+  title: Authentication Module
+  version: 1.0.0
+paths:
+  /register:
+    post:
+      summary: User Registration
+      description: User registration with username and password
+      operationId: registerUser
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "201":
+          description: Registration successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Registration successful"
+        "400":
+          description: Invalid request parameters (missing fields or format error)
+        "409":
+          description: Username already exists
+
+  /login:
+    post:
+      summary: User Login
+      description: User login with username and password
+      operationId: loginUser
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginUserDTO"
+      responses:
+        "200":
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: Authentication token, required for subsequent API requests
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        "400":
+          description: Invalid request parameters (missing `userName` or `password`)
+        "401":
+          description: Authentication failed, incorrect username or password
+
+  /logout:
+    post:
+      summary: User Logout
+      description: User logout, clear authentication information
+      operationId: logoutUser
+      tags:
+        - Authentication
+      responses:
+        "200":
+          description: Logout successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Logout successful"
+        "401":
+          description: Not logged in or invalid token
+  
+components:
+  schemas:
+    User:
+      type: object
+      required:
+        - userName
+        - password
+      properties:
+        userName:
+          type: string
+          description: Username
+          example: "golemon"
+        password:
+          type: string
+          description: User password (usually encrypted)
+          example: "333a0611c53368697659b4248d6cdd99"
+        email:
+          type: string
+          format: email
+          description: User email
+          example: "golemon@example.com"
+
+    LoginUserDTO:
+      type: object
+      required:
+        - userName
+        - password
+      properties:
+        userName:
+          type: string
+          description: Username
+          example: "shoko"
+        password:
+          type: string
+          description: User password (usually encrypted)
+          example: "333a0611c53368697659b4248d6cdd99"
+  

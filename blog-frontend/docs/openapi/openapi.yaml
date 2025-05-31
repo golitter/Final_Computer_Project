@@ -1,0 +1,74 @@
+openapi: 3.0.0
+info:
+  title: Blog System Based on SpringBoot3 and Vue3 with Frontend-Backend Separation
+  description: Backend API Documentation
+  version: 1.0.0
+  contact:
+    name: API Support
+    email: golitter@qq.com
+servers:
+  - url: https://localhost:8080/
+    description: Local Development Environment
+paths:
+  # User Module
+  /login:
+    $ref: "./user.yaml#/paths/~1login"
+  /register:
+    $ref: "./user.yaml#/paths/~1register"
+  /logout:
+    $ref: "./user.yaml#/paths/~1logout"
+  # Category Module
+  /category/categoryList:
+    $ref: "./category.yaml#/paths/~1category~1categoryCountList"
+
+  # Large Language Model Chat Module
+  /plugins/ai/chat:
+    $ref: "./aichat.yaml#/paths/~1plugins~1ai~1chat"
+  # Tag Module
+  /tag/tagCountList:
+    $ref: "./tag.yaml#/paths/~1tag~1tagCountList"
+  # Article Module
+  /article/articleList:
+    $ref: "./article.yaml#/paths/~1article~1articleList"
+
+  /article/{id}:
+    $ref: "./article.yaml#/paths/~1article~1{id}"
+
+  /article/add:
+    $ref: "./article.yaml#/paths/~1article~1add"
+  /article/edit:
+    $ref: "./article.yaml#/paths/~1article~1edit"
+  /article/count:
+    $ref: "./article.yaml#/paths/~1article~1count"
+  /article/updateViewCount/{id}:
+    $ref: "./article.yaml#/paths/~1article~1updateViewCount~1{id}"
+  /article/previousNextArticle/{id}:
+    $ref: "./article.yaml#/paths/~1article~1previousNextArticle~1{id}"
+  /article/randomArticleList:
+    $ref: "./article.yaml#/paths/~1article~1randomArticleList"
+  /article/search:
+    $ref: "./article.yaml#/paths/~1article~1search"
+components:
+  schemas:
+    # Reference schemas from modules
+    User:
+      $ref: "./user.yaml#/components/schemas/User"
+    LoginUserDTO:
+      $ref: "./user.yaml#/components/schemas/LoginUserDTO"
+    Category:
+      $ref: "./category.yaml#/components/schemas/Category"
+    CategoryCount:
+      $ref: "./category.yaml#/components/schemas/CategoryCount"
+    Article:
+      $ref: "./article.yaml#/components/schemas/Article"
+    ArticleDTO:
+      $ref: "./article.yaml#/components/schemas/ArticleDTO"
+    TagCountVo:
+      $ref: "./tag.yaml#/components/schemas/TagCountVo"
+    ChatMessage:
+      $ref: "./aichat.yaml#/components/schemas/ChatMessage"
+securitySchemes:
+  bearerAuth:
+    type: http
+    scheme: bearer
+    bearerFormat: JWT
